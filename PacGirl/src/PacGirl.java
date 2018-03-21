@@ -8,11 +8,13 @@ public class PacGirl {
 	
 	public PacGirl() {
 		JFrame frame = new JFrame();
-		frame.setVisible(true);
 		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 		frame.setSize(fWidth, fHeight);
 		
 		gp = new GamePanel();
+		
+		frame.add(gp);
+		frame.setVisible(true);
 	}
 	
 	public static void main(String[] args) {
