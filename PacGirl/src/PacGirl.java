@@ -2,8 +2,8 @@ import javax.swing.JFrame;
 
 public class PacGirl {
 
-	public static final int fWidth = 1000;
-	public static final int fHeight = 1100;
+	public static final int fWidth = 987;
+	public static final int fHeight = 1080;
 	GamePanel gp;
 
 	public PacGirl() {

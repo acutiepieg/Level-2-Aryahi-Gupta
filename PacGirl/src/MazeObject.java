@@ -19,14 +19,13 @@ public class MazeObject {
 		this.col = col;
 		this.width = width;
 		this.height = height;
-		this.x = row * width;
-		this.y = col * height;
+		this.x = col * width;
+		this.y = row * height;
 		this.state = state;
 	}
 
 	public void draw(Graphics g) {
-		System.out.println("maze object draw");
-		if(state == 1) {
+		if(state == GamePanel.wall) {
 			g.setColor(Color.BLUE);
 		}
 		
