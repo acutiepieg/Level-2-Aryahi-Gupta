@@ -40,13 +40,15 @@ public class GamePanel extends JPanel {
 					   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}   
 	};
 	public GamePanel() {
-		om = new ObjectManager();
 		pgo = new PacGirlObject();
+		om = new ObjectManager(pgo);
+		
 		try {
 			pacGirlImg = ImageIO.read(this.getClass().getResourceAsStream("Mp1bpihs_400x400.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		
 		}
 		
 		for (int i = 0; i < numRows; i++) {

@@ -29,7 +29,7 @@ public class MazeObject {
 			g.setColor(Color.BLUE);
 		}
 		
-		else {
+		else if (state == GamePanel.empty) {
 			g.setColor(Color.black);
 		}
 		g.drawRect(x, y, width, height);

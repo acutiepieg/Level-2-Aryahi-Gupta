@@ -4,9 +4,11 @@ import java.util.ArrayList;
 public class ObjectManager {
 
 	ArrayList<MazeObject> mazes;
-
-	public ObjectManager() {
+	PacGirlObject pacGirl;
+	
+	public ObjectManager(PacGirlObject pacGirl) {
 		mazes = new ArrayList<MazeObject>();
+		this.pacGirl = pacGirl;
 	}
 
 	public void addMazeObject(MazeObject maze) {
@@ -17,6 +19,9 @@ public class ObjectManager {
 		for (MazeObject m : mazes) {
 			m.draw(g);
 		}
+		pacGirl.draw(g);
+		System.out.println("draw PacGirl");
+		
 	}
 
 }
