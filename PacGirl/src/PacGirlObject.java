@@ -1,19 +1,30 @@
 import java.awt.Graphics;
 
 public class PacGirlObject {
-	
 
-	
-	public PacGirlObject() {
-		
+	static int x;
+	static int y;
+	int row;
+	int col;
+
+	public PacGirlObject(int row, int col) {
+		this.row = row;
+		this.col = col;
+		x = (PacGirl.fWidth / GamePanel.numCol) * 10;
+		y = (PacGirl.fHeight / GamePanel.numRows) * 13;
+
 	}
 
-public void draw(Graphics g) {
-	System.out.println("PacGirl image");
-	System.out.println(PacGirl.fWidth/2 + " x");
-	System.out.println(PacGirl.fHeight - PacGirl.fHeight/21 + " y");
-	
-	g.drawImage(GamePanel.pacGirlImg, PacGirl.fWidth/2, PacGirl.fHeight - PacGirl.fHeight/21, null);
-}
+	public void draw(Graphics g) {
+		System.out.println("PacGirl image");
+		System.out.println(x + " x");
+		System.out.println(y + " y");
+
+		g.drawImage(GamePanel.pacGirlImg, x, y, null);
+	}
+
+	public void update() {
+		
+	}
 
 }
