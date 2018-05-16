@@ -1,26 +1,27 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
-public class PacGirlObject {
-
+public class GhostObject {
+	
 	int x;
 	int y;
 	int row;
 	int col;
-
-	public PacGirlObject(int row, int col) {
+	
+	public GhostObject(int row,int col) {
 		this.row = row;
 		this.col = col;
-		x = (PacGirl.fWidth / GamePanel.numCol) * 10;
+		x = (PacGirl.fWidth / GamePanel.numCol) * 12;
 		y = (PacGirl.fHeight / GamePanel.numRows) * 13;
 
 	}
-
+	
 	public void draw(Graphics g) {
-		g.drawImage(GamePanel.pacGirlImg, x, y, null);
+		g.setColor(Color.CYAN);
+		g.drawRect(x, y, 50, 50);
 	}
-
+	
 	public void update() {
 		
 	}
-
 }
