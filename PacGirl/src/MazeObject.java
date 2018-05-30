@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Random;
 
 public class MazeObject {
@@ -13,7 +14,8 @@ public class MazeObject {
 	int row;
 	int col;
 	int state;
-
+	Rectangle collisionBox; 
+	
 	public MazeObject(int row, int col, int width, int height, int state) {
 		this.row = row;
 		this.col = col;
@@ -22,6 +24,7 @@ public class MazeObject {
 		this.x = col * width;
 		this.y = row * height;
 		this.state = state;
+		
 	}
 
 	public void draw(Graphics g) {

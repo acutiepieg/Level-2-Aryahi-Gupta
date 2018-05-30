@@ -22,8 +22,14 @@ public class ObjectManager {
 			m.draw(g);
 		}
 		pacGirl.draw(g);
-		//ghost1.draw(g);
+		ghost1.draw(g);
 
+	}
+	
+	public void checkCollision() {
+		for(MazeObject m: mazes) {
+			if()
+		}
 	}
 
 }
