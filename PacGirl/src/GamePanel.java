@@ -18,7 +18,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	PacGirlObject pgo;
 	GhostObject g1;
 	int fps;
-	
 
 	static int wall = 1;
 	static int empty = 0;
@@ -49,19 +48,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
 	public GamePanel() {
-		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 4);
-		om = new ObjectManager(pgo, g1);	
-		fps = 60;
-		
+
 		try {
 			pacGirlImg = ImageIO.read(this.getClass().getResourceAsStream("Mp1bpihs_400x400.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();	
-		
+			e.printStackTrace();
+
 		}
-		
+		pgo = new PacGirlObject(10, 13);
+		g1 = new GhostObject(12, 4);
+		om = new ObjectManager(pgo, g1);
+		fps = 60;
+
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
 				mo = new MazeObject(i, j, PacGirl.fWidth / numCol, (PacGirl.fHeight - 120) / numRows, states[i][j]);
@@ -69,10 +68,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 			}
 		}
-		
-		Timer timer = new Timer(1000/fps, this);
+
+		Timer timer = new Timer(1000 / fps, this);
 		timer.start();
-		
+
 	}
 
 	public void paintComponent(Graphics g) {
@@ -91,21 +90,39 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			pgo.x = pgo.x + 5;
+			System.out.println("going right");
+			om.checkCollision();
+			if (om.checkCollision() == true) {
+				pgo.x = pgo.x - 8;
+				System.out.println("corrected - left");
+			}
 
-		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			pgo.x = pgo.x - 5;
-			
-		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			System.out.println("going left");
+			if (om.checkCollision() == true) {
+				pgo.x = pgo.x + 8;
+				System.out.println("corrected - right");
+			}
+
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			pgo.y = pgo.y - 5;
-			
-		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			System.out.println("going up");
+			if (om.checkCollision() == true) {
+				pgo.y = pgo.y + 8;
+				System.out.println("corrected - down");
+			}
+
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			pgo.y = pgo.y + 5;
-			
+			System.out.println("going down");
+			if (om.checkCollision() == true) {
+				System.out.println(mo.y + " " + (pgo.y + pacGirlImg.getHeight()));
+				pgo.y = pgo.y - 8;
+				System.out.println("corrected - up");
+			}
 		}
-		
+
 		repaint();
 	}
 
@@ -118,7 +135,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

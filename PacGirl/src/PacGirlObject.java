@@ -14,7 +14,7 @@ public class PacGirlObject {
 		this.col = col;
 		x = (PacGirl.fWidth / GamePanel.numCol) * row;
 		y = (PacGirl.fHeight / GamePanel.numRows) * col;
-		cBox = new Rectangle(x, y, GamePanel.pacGirlImg.getWidth(), GamePanel.pacGirlImg.getHeight() );
+		cBox = new Rectangle(x, y, GamePanel.pacGirlImg.getWidth(), GamePanel.pacGirlImg.getHeight());
 
 	}
 

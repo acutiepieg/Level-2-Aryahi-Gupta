@@ -24,6 +24,7 @@ public class MazeObject {
 		this.x = col * width;
 		this.y = row * height;
 		this.state = state;
+		collisionBox = new Rectangle(x, y, width, height);
 		
 	}
 
@@ -37,6 +38,7 @@ public class MazeObject {
 		}
 		g.drawRect(x, y, width, height);
 		g.fillRect(x, y, width, height);
+		
 	}
 
 }

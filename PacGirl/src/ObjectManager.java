@@ -26,10 +26,13 @@ public class ObjectManager {
 
 	}
 	
-	public void checkCollision() {
+	public boolean checkCollision() {
 		for(MazeObject m: mazes) {
-			if()
+			if(m.state == GamePanel.wall && pacGirl.cBox.intersects(m.collisionBox)) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 }

@@ -14,7 +14,6 @@ public class PacGirl {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 		frame.setSize(fWidth, fHeight);
-
 		gp = new GamePanel();
 
 		frame.add(gp);
