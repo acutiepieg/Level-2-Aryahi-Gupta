@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g1;
 	int fps;
 
+
 	static int wall = 1;
 	static int empty = 0;
 	static int pacG = 2;
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
-				mo = new MazeObject(i, j, PacGirl.fWidth / numCol, (PacGirl.fHeight - 120) / numRows, states[i][j]);
+				mo = new MazeObject(i, j, states[i][j]);
 				om.addMazeObject(mo);
 
 			}
@@ -82,44 +83,40 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		repaint();
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			pgo.x = pgo.x + 5;
-			System.out.println("going right");
-			om.checkCollision();
-			if (om.checkCollision() == true) {
-				pgo.x = pgo.x - 8;
-				System.out.println("corrected - left");
+			Rectangle colBox = new Rectangle(pgo.x + 5, pgo.y, PacGirlObject.width, PacGirlObject.height);
+			System.out.println(pacGirlImg.getHeight());
+			System.out.println(om.checkCollision(colBox) + " " + pgo.x + " " +  pgo.y + " " +  PacGirlObject.width + " " +  PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.x = pgo.x +5;
+			}
+			else {
+				System.out.println("collide");
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			pgo.x = pgo.x - 5;
-			System.out.println("going left");
-			if (om.checkCollision() == true) {
-				pgo.x = pgo.x + 8;
-				System.out.println("corrected - right");
+			Rectangle colBox = new Rectangle(pgo.x - 5, pgo.y, PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.x = pgo.x - 5;
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			pgo.y = pgo.y - 5;
-			System.out.println("going up");
-			if (om.checkCollision() == true) {
-				pgo.y = pgo.y + 8;
-				System.out.println("corrected - down");
+			Rectangle colBox = new Rectangle(pgo.x, pgo.y - 5, PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.y = pgo.y - 5;
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			pgo.y = pgo.y + 5;
-			System.out.println("going down");
-			if (om.checkCollision() == true) {
+			Rectangle colBox = new Rectangle(pgo.x, pgo.y + 5, PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
 				System.out.println(mo.y + " " + (pgo.y + pacGirlImg.getHeight()));
-				pgo.y = pgo.y - 8;
-				System.out.println("corrected - up");
+				pgo.y = pgo.y + 5;
 			}
 		}
 

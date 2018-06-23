@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class ObjectManager {
@@ -25,10 +26,10 @@ public class ObjectManager {
 		ghost1.draw(g);
 
 	}
-	
-	public boolean checkCollision() {
+
+	public boolean checkCollision(Rectangle colBox){
 		for(MazeObject m: mazes) {
-			if(m.state == GamePanel.wall && pacGirl.cBox.intersects(m.collisionBox)) {
+			if(m.state == GamePanel.wall && colBox.intersects(m.collisionBox)) {
 				return true;
 			}
 		}

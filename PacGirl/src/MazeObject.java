@@ -9,18 +9,16 @@ public class MazeObject {
 
 	int x;
 	int y;
-	int width;
-	int height;
+	static final int width = PacGirl.fWidth / GamePanel.numCol;
+	static final int height =  (PacGirl.fHeight - 120) / GamePanel.numRows;
 	int row;
 	int col;
 	int state;
 	Rectangle collisionBox; 
 	
-	public MazeObject(int row, int col, int width, int height, int state) {
+	public MazeObject(int row, int col, int state) {
 		this.row = row;
 		this.col = col;
-		this.width = width;
-		this.height = height;
 		this.x = col * width;
 		this.y = row * height;
 		this.state = state;
@@ -38,6 +36,7 @@ public class MazeObject {
 		}
 		g.drawRect(x, y, width, height);
 		g.fillRect(x, y, width, height);
+		collisionBox.setBounds(x, y, width, height);
 		
 	}
 
