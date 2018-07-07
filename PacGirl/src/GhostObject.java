@@ -7,6 +7,7 @@ public class GhostObject {
 	int y;
 	int row;
 	int col;
+	int direction = 7;
 	
 	
 	public GhostObject(int row,int col) {
@@ -14,6 +15,7 @@ public class GhostObject {
 		this.col = col;
 		x = (PacGirl.fWidth / GamePanel.numCol) * row;
 		y = (PacGirl.fHeight / GamePanel.numRows) * col;
+		
 
 	}
 	
@@ -23,6 +25,10 @@ public class GhostObject {
 	}
 	
 	public void update() {
+		y = y + direction;
 		
 	}
-}
+	
+	
+	}
+

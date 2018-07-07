@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g1;
 	int fps;
 
-
 	static int wall = 1;
 	static int empty = 0;
 	static int pacG = 2;
@@ -83,7 +82,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		repaint();
 	}
 
 	@Override
@@ -92,11 +91,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Rectangle colBox = new Rectangle(pgo.x + 5, pgo.y, PacGirlObject.width, PacGirlObject.height);
 			System.out.println(pacGirlImg.getHeight());
-			System.out.println(om.checkCollision(colBox) + " " + pgo.x + " " +  pgo.y + " " +  PacGirlObject.width + " " +  PacGirlObject.height);
+			System.out.println(om.checkCollision(colBox) + " " + pgo.x + " " + pgo.y + " " + PacGirlObject.width + " "
+					+ PacGirlObject.height);
 			if (om.checkCollision(colBox) == false) {
-				pgo.x = pgo.x +5;
-			}
-			else {
+				pgo.x = pgo.x + 5;
+			} else {
 				System.out.println("collide");
 			}
 
@@ -132,7 +131,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		om.ghosts();
 	}
 
 }
