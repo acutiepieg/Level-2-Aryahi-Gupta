@@ -27,6 +27,7 @@ public class GhostObject {
 	public void update() {
 		y = y + direction;
 		
+		
 	}
 	
 	
