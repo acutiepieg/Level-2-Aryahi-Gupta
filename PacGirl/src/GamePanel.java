@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g1;
 	GhostObject g2;
 	int fps;
-	int speed = 2;
+	double speed = 0.35;
 	boolean moveUp = false;
 	boolean moveDown = false;
 	boolean moveRight = false;
@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		pgo = new PacGirlObject(10, 13);
 		g1 = new GhostObject(12, 4);
+		g2 = new GhostObject(1,2);
 		om = new ObjectManager(pgo, g1, g2);
 		fps = 60;
 
@@ -80,22 +81,37 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		Timer timer = new Timer(1000 / fps, this);
 		timer.start();
 
-		
 	}
 
 	public void paintComponent(Graphics g) {
-		
+
 		if (moveUp == true) {
-			pgo.y -= speed;
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.y -= speed;
+			}
 		}
-		if (moveDown == true) {
-			pgo.y += speed;
+		else if (moveDown == true) {
+			System.out.println("move down");
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.y += speed;
+			}
 		}
-		if (moveRight == true) {
-			pgo.x += speed;
+		else if (moveRight == true) {
+			
+			Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				System.out.println("move right");
+				pgo.x += speed;
+			}
 		}
-		if (moveLeft == true) {
-			pgo.x -= speed;
+		else if (moveLeft == true) {
+			
+			Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			if (om.checkCollision(colBox) == false) {
+				pgo.x -= speed;
+			}
 		}
 		
 		om.draw(g);
@@ -112,32 +128,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			Rectangle colBox = new Rectangle(pgo.x + 5, pgo.y, PacGirlObject.width, PacGirlObject.height);
-			System.out.println(pacGirlImg.getHeight());
-			System.out.println(om.checkCollision(colBox) + " " + pgo.x + " " + pgo.y + " " + PacGirlObject.width + " "
-					+ PacGirlObject.height);
-			if (om.checkCollision(colBox) == false) {
-				moveRight = true;
-			}
+			moveRight = true;
+			System.out.println("boolean - right");
+		}
 
-		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			Rectangle colBox = new Rectangle(pgo.x - 5, pgo.y, PacGirlObject.width, PacGirlObject.height);
-			if (om.checkCollision(colBox) == false) {
-				moveLeft = true;
-			}
+		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			moveLeft = true;
 
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			Rectangle colBox = new Rectangle(pgo.x, pgo.y - 5, PacGirlObject.width, PacGirlObject.height);
-			if (om.checkCollision(colBox) == false) {
-				moveUp = true;
-			}
+			moveUp = true;
 
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			Rectangle colBox = new Rectangle(pgo.x, pgo.y + 5, PacGirlObject.width, PacGirlObject.height);
-			if (om.checkCollision(colBox) == false) {
-				System.out.println(mo.y + " " + (pgo.y + pacGirlImg.getHeight()));
-				moveDown = true;
-			}
+			moveDown = true;
+			System.out.println("boolean - down");
 		}
 
 		repaint();
@@ -147,6 +150,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			System.out.println("release right");
 			moveRight = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -163,7 +167,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		om.ghostCollision();
+	om.ghostCollision();
 	}
 
 }

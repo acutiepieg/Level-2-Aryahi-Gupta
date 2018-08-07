@@ -29,7 +29,7 @@ public class ObjectManager {
 		}
 		pacGirl.draw(g);
 		ghost1.draw(g);
-		//ghost2.draw(g);
+		ghost2.draw(g);
 
 	}
 
@@ -42,11 +42,11 @@ public class ObjectManager {
 		}
 		ghost1.update();
 		// ghost2
-		//ghostFutureBox2 = new Rectangle(ghost2.x + ghost2.direction, ghost2.y, MazeObject.width, MazeObject.height);
-		//if (checkCollision(ghostFutureBox2) == true) {
-		//	ghost2.direction = ghost2.direction * -1;
-		//}
-		//ghost2.update();
+		ghostFutureBox2 = new Rectangle(ghost2.x + ghost2.direction, ghost2.y, MazeObject.width, MazeObject.height);
+		if (checkCollision(ghostFutureBox2) == true) {
+			ghost2.direction = ghost2.direction * -1;
+		}
+		ghost2.update();
 	}
 
 	public boolean checkCollision(Rectangle colBox) {
@@ -56,7 +56,6 @@ public class ObjectManager {
 			if (m.state == GamePanel.wall && colBox.intersects(m.collisionBox)) {
 				return true;
 			}
-
 		}
 		return false;
 	}
