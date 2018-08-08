@@ -65,8 +65,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 4);
-		g2 = new GhostObject(1,2);
+		g1 = new GhostObject(12, 4, true);
+		g2 = new GhostObject(1, 16, false);
 		om = new ObjectManager(pgo, g1, g2);
 		fps = 60;
 

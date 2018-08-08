@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class GhostObject {
 	
@@ -7,12 +8,14 @@ public class GhostObject {
 	int y;
 	int row;
 	int col;
-	int direction = 7;
+	boolean upOrDown;
+	int direction = -7;
 	
 	
-	public GhostObject(int row,int col) {
+	public GhostObject(int row,int col, boolean upOrDown) {
 		this.row = row;
 		this.col = col;
+		this.upOrDown = upOrDown;
 		x = (PacGirl.fWidth / GamePanel.numCol) * row;
 		y = (PacGirl.fHeight / GamePanel.numRows) * col;
 		
@@ -25,9 +28,12 @@ public class GhostObject {
 	}
 	
 	public void update() {
-		y = y + direction;
-		
-		
+		if(upOrDown == true) {
+			y = y + direction;
+		}
+		else {
+			x = x + direction;
+		}
 	}
 	
 	
