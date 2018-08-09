@@ -12,7 +12,6 @@ public class ObjectManager {
 	GhostObject ghost2;
 	Rectangle ghostFutureBox1;
 	Rectangle ghostFutureBox2;
-	Boolean collision;
 	Random r = new Random();
 
 	public ObjectManager(PacGirlObject pacGirl, GhostObject ghost1, GhostObject ghost2) {
@@ -35,20 +34,19 @@ public class ObjectManager {
 		ghost2.draw(g);
 
 	}
-
 	public void ghostCollision() {
 		// ghost1
 		Rectangle ghostFutureBox1 = new Rectangle(ghost1.x, ghost1.y + ghost1.direction, MazeObject.width,
 				MazeObject.height);
 		checkCollision(ghostFutureBox1);
-		if ( collision == true) {
+		if (checkCollision(ghostFutureBox1) == true) {
 			ghost1.direction = ghost1.direction * -1;
 		}
 		ghost1.update();
 		// ghost2
 		ghostFutureBox2 = new Rectangle(ghost2.x + ghost2.direction, ghost2.y, MazeObject.width, MazeObject.height);
 		checkCollision(ghostFutureBox2);
-		if ( collision == true) {
+		if (checkCollision(ghostFutureBox2) == true) {
 			int r1 = r.nextInt(2);	
 			if (r1 == 0) {
 					ghost2.upOrDown = false;
@@ -63,15 +61,13 @@ public class ObjectManager {
 		ghost2.update();
 	}
 
-	public void checkCollision(Rectangle colBox) {
+	public boolean checkCollision(Rectangle colBox) {
 		for (MazeObject m : mazes) {
 			if (m.state == GamePanel.wall && colBox.intersects(m.collisionBox)) {
-				collision = true;
-			} else {
-				collision = false;
-			}
-
+				return true;
+			} 
 		}
-
+		return false;
 	}
 }
+
