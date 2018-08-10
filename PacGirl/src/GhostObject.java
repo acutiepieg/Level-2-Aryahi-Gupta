@@ -9,7 +9,7 @@ public class GhostObject {
 	int row;
 	int col;
 	boolean upOrDown;
-	int direction = -7;
+	int direction = 1;
 	
 	
 	public GhostObject(int row,int col, boolean upOrDown) {
@@ -34,6 +34,7 @@ public class GhostObject {
 		else {
 			x = x + direction;
 		}
+		System.out.println(direction);
 	}
 	
 	

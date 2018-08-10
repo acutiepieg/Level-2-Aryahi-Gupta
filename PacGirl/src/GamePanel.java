@@ -84,33 +84,34 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void paintComponent(Graphics g) {
-		
-			if (moveUp == true) {
-				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
-				if(om.checkCollision(colBox) == false) {
+
+		if (moveUp == true) {
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
+			om.checkGhostCollision(colBox);
+			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y -= speed;
-				}
-				else {
-					
-				}
-			} else if (moveDown == true) {
-				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
-				if (om.checkCollision(colBox) == false) {
-					pgo.y += speed;
-				}
-			} else if (moveRight == true) {
-				Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-				if(om.checkCollision(colBox) == false) {
-				pgo.x += speed;
-				}
-			} else if (moveLeft == true) {
-				Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-				if(om.checkCollision(colBox) == false) {
-				pgo.x -= speed;
-				}
+			} else {
+
 			}
-		
-	
+		} else if (moveDown == true) {
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
+			om.checkGhostCollision(colBox);
+			if (om.checkMazeCollision(colBox) == false) {
+				pgo.y += speed;
+			}
+		} else if (moveRight == true) {
+			Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			om.checkGhostCollision(colBox);
+			if (om.checkMazeCollision(colBox) == false) {
+				pgo.x += speed;
+			}
+		} else if (moveLeft == true) {
+			Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			om.checkGhostCollision(colBox);
+			if (om.checkMazeCollision(colBox) == false) {
+				pgo.x -= speed;
+			}
+		}
 		om.ghostCollision();
 		om.draw(g);
 

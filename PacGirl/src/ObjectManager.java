@@ -1,7 +1,10 @@
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JOptionPane;
 
 public class ObjectManager {
 
@@ -36,38 +39,39 @@ public class ObjectManager {
 	}
 	public void ghostCollision() {
 		// ghost1
-		Rectangle ghostFutureBox1 = new Rectangle(ghost1.x, ghost1.y + ghost1.direction, MazeObject.width,
-				MazeObject.height);
-		checkCollision(ghostFutureBox1);
-		if (checkCollision(ghostFutureBox1) == true) {
+		ghostFutureBox1 = new Rectangle(ghost1.x, ghost1.y + ghost1.direction, MazeObject.width, MazeObject.height);
+		checkMazeCollision(ghostFutureBox1);
+		if (checkMazeCollision(ghostFutureBox1) == true) {
 			ghost1.direction = ghost1.direction * -1;
 		}
 		ghost1.update();
 		// ghost2
-		ghostFutureBox2 = new Rectangle(ghost2.x + ghost2.direction, ghost2.y, MazeObject.width, MazeObject.height);
-		checkCollision(ghostFutureBox2);
-		if (checkCollision(ghostFutureBox2) == true) {
-			int r1 = r.nextInt(2);	
-			if (r1 == 0) {
-					ghost2.upOrDown = false;
-				} else if (r1 == 1) {
-					ghost2.upOrDown = true;
-				}
-				else {
-					ghost2.direction = ghost2.direction * -1;
-				}
-			}	
-		
+		ghostFutureBox2= new Rectangle(ghost2.x + ghost2.direction, ghost2.y, MazeObject.width, MazeObject.height);
+		checkMazeCollision(ghostFutureBox2);
+		if (checkMazeCollision(ghostFutureBox2) == true) {
+			ghost2.direction = ghost2.direction * -1;
+		}
 		ghost2.update();
 	}
 
-	public boolean checkCollision(Rectangle colBox) {
+	public boolean checkMazeCollision(Rectangle colBox) {
 		for (MazeObject m : mazes) {
 			if (m.state == GamePanel.wall && colBox.intersects(m.collisionBox)) {
 				return true;
 			} 
 		}
 		return false;
+	}
+	
+	public void checkGhostCollision(Rectangle colBox) {
+		if(colBox.intersects(ghostFutureBox1)) {
+			JOptionPane.showMessageDialog(null, "You have collided with a ghost. Game Over");
+			System.exit(0);
+		}
+		else if(colBox.intersects(ghostFutureBox2)) {
+			JOptionPane.showMessageDialog(null, "You have collided with a ghost. Game Over");
+			System.exit(0);
+		}
 	}
 }
 
