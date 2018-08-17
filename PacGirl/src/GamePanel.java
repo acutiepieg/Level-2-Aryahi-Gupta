@@ -20,7 +20,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g1;
 	GhostObject g2;
 	int fps;
-	double speed = 0.35;
+
+	int speed = 1;
 	boolean moveUp = false;
 	boolean moveDown = false;
 	boolean moveRight = false;
@@ -65,8 +66,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 4, true);
-		g2 = new GhostObject(1, 16, false);
+		g1 = new GhostObject(12, 4, GhostObject.down);
+		g2 = new GhostObject(1, 16, GhostObject.right);
 		om = new ObjectManager(pgo, g1, g2);
 		fps = 60;
 
@@ -87,7 +88,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (moveUp == true) {
 			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
-			om.checkGhostCollision(colBox);
+			System.out.println("Move up");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y -= speed;
 			} else {
@@ -95,25 +96,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 		} else if (moveDown == true) {
 			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
-			om.checkGhostCollision(colBox);
+			System.out.println("move down");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y += speed;
 			}
 		} else if (moveRight == true) {
 			Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			om.checkGhostCollision(colBox);
+			System.out.println("move right");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x += speed;
 			}
 		} else if (moveLeft == true) {
 			Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			om.checkGhostCollision(colBox);
+			System.out.println("move left");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x -= speed;
 			}
 		}
 		om.ghostCollision();
 		om.draw(g);
+		om.checkGhostCollision(pgo.cBox);
 
 		repaint();
 
@@ -132,13 +134,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			moveRight = true;
 		}
 
-		else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			moveLeft = true;
 
-		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+		} 
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			moveUp = true;
 
-		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		} 
+			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			moveDown = true;
 		}
 
@@ -161,6 +165,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			moveDown = false;
 		}
+		repaint();
 	}
 
 	@Override
