@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -68,8 +69,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		pgo = new PacGirlObject(10, 13);
 		g1 = new GhostObject(12, 4, GhostObject.down);
 		g2 = new GhostObject(1, 16, GhostObject.right);
-		om = new ObjectManager(pgo, g1, g2);
+		om = new ObjectManager(pgo);
 		fps = 60;
+		
+		om.addGhostObject(g1);
+		om.addGhostObject(g2);
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
@@ -88,7 +92,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (moveUp == true) {
 			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
-			System.out.println("Move up");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y -= speed;
 			} else {
@@ -96,26 +99,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 		} else if (moveDown == true) {
 			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
-			System.out.println("move down");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y += speed;
 			}
 		} else if (moveRight == true) {
 			Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			System.out.println("move right");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x += speed;
 			}
 		} else if (moveLeft == true) {
 			Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			System.out.println("move left");
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x -= speed;
 			}
 		}
 		om.ghostCollision();
 		om.draw(g);
-		om.checkGhostCollision(pgo.cBox);
+		checkGhostCollision(pgo.cBox);
 
 		repaint();
 
@@ -147,6 +147,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 
 		repaint();
+	}
+	
+	public void checkGhostCollision(Rectangle colBox) {	
+		for(GhostObject g : om.ghosts) {
+		if(colBox.intersects(om.getGhostFutureRect(g))) {
+			JOptionPane.showMessageDialog(this, "You have collided with a ghost. Game Over");
+			System.exit(0);
+		}
+	}
 	}
 
 	@Override

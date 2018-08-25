@@ -10,7 +10,6 @@ public class GhostObject {
 	int col;
 	int direction;
 	int speed = 1;
-	Rectangle ghostCollision;
 	
 	static final int up = 0;
 	static final int down = 1;
@@ -23,8 +22,6 @@ public class GhostObject {
 		this.direction = direction;
 		x = (PacGirl.fWidth / GamePanel.numCol) * row;
 		y = (PacGirl.fHeight / GamePanel.numRows) * col;
-		ghostCollision = new Rectangle(x, y, MazeObject.width, MazeObject.height);
-
 	}
 
 	public void draw(Graphics g) {
@@ -42,7 +39,7 @@ public class GhostObject {
 		} else if (direction == left) {
 			x = x - speed;
 		}
-		ghostCollision.setBounds(x, y, MazeObject.width, MazeObject.height);
+		
 	}
 	
 }

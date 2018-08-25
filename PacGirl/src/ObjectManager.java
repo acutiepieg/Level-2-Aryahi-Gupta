@@ -11,21 +11,22 @@ public class ObjectManager {
 	ArrayList<MazeObject> mazes;
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
-	GhostObject ghost1;
-	GhostObject ghost2;
-	Rectangle ghostFutureBox1;
-	Rectangle ghostFutureBox2;
+	Rectangle ghostFutureBox;
+	
 	Random r = new Random();
 
-	public ObjectManager(PacGirlObject pacGirl, GhostObject ghost1, GhostObject ghost2) {
+	public ObjectManager(PacGirlObject pacGirl) {
 		mazes = new ArrayList<MazeObject>();
+		ghosts = new ArrayList<GhostObject>();
 		this.pacGirl = pacGirl;
-		this.ghost1 = ghost1;
-		this.ghost2 = ghost2;
 	}
 
 	public void addMazeObject(MazeObject maze) {
 		mazes.add(maze);
+	}
+	
+	public void addGhostObject(GhostObject ghost) {
+		ghosts.add(ghost);
 	}
 
 	public void draw(Graphics g) {
@@ -33,45 +34,44 @@ public class ObjectManager {
 			m.draw(g);
 		}
 		pacGirl.draw(g);
-		ghost1.draw(g);
-		ghost2.draw(g);
+		for(GhostObject ghost : ghosts) {
+			ghost.draw(g);
+		}
 
 	}
+
 	public void ghostCollision() {
-		// ghost1
-		ghostFutureBox1 = new Rectangle(ghost1.x, ghost1.y + ghost1.speed, MazeObject.width, MazeObject.height);
-		checkMazeCollision(ghostFutureBox1);
-		if (checkMazeCollision(ghostFutureBox1) == true) {
-			ghost1.speed = ghost1.speed * -1;
+		for(GhostObject g: ghosts) {
+		ghostFutureBox = getGhostFutureRect(g);
+		if (checkMazeCollision(ghostFutureBox) == true) {
+			g.speed = g.speed * -1;
+			//g.direction = r.nextInt(3);
 		}
-		ghost1.update();
-		// ghost2
-		ghostFutureBox2= new Rectangle(ghost2.x + ghost2.speed, ghost2.y, MazeObject.width, MazeObject.height);
-		checkMazeCollision(ghostFutureBox2);
-		if (checkMazeCollision(ghostFutureBox2) == true) {
-			ghost2.speed = ghost2.speed * -1;
+		g.update();
 		}
-		ghost2.update();
 	}
 
 	public boolean checkMazeCollision(Rectangle colBox) {
 		for (MazeObject m : mazes) {
 			if (m.state == GamePanel.wall && colBox.intersects(m.collisionBox)) {
 				return true;
-			} 
+			}
 		}
 		return false;
 	}
-	
-	public void checkGhostCollision(Rectangle colBox) {
-		if(colBox.intersects(ghost1.ghostCollision)) {
-			JOptionPane.showMessageDialog(null, "You have collided with a ghost. Game Over");
-			System.exit(0);
+
+	public Rectangle getGhostFutureRect(GhostObject ghost) {
+		Rectangle ghostFutureRect = null;
+		if (ghost.direction == ghost.up) {
+			ghostFutureRect = new Rectangle(ghost.x, ghost.y - ghost.speed, MazeObject.width, MazeObject.height);
+		} else if (ghost.direction == ghost.down) {
+			ghostFutureRect = new Rectangle(ghost.x, ghost.y + ghost.speed, MazeObject.width, MazeObject.height);
+		} else if (ghost.direction == ghost.right) {
+			ghostFutureRect = new Rectangle(ghost.x + ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
+		} else if (ghost.direction == ghost.left) {
+			ghostFutureRect = new Rectangle(ghost.x - ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
 		}
-		else if(colBox.intersects(ghost2.ghostCollision)) {
-			JOptionPane.showMessageDialog(null, "You have collided with a ghost. Game Over");
-			System.exit(0);
-		}
+
+		return ghostFutureRect;
 	}
 }
-
