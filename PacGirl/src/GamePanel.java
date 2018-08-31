@@ -20,6 +20,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	PacGirlObject pgo;
 	GhostObject g1;
 	GhostObject g2;
+	GhostObject g3;
+	GhostObject g4;
+	GhostObject g5;
 	int fps;
 
 	int speed = 1;
@@ -69,11 +72,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		pgo = new PacGirlObject(10, 13);
 		g1 = new GhostObject(12, 4, GhostObject.down);
 		g2 = new GhostObject(1, 16, GhostObject.right);
+		g3 = new GhostObject(5, 12, GhostObject.left);
+		g4 = new GhostObject(11, 4, GhostObject.up);
+		g5 = new GhostObject(2, 20, GhostObject.down);
 		om = new ObjectManager(pgo);
 		fps = 60;
 		
 		om.addGhostObject(g1);
 		om.addGhostObject(g2);
+		om.addGhostObject(g3);
+		om.addGhostObject(g4);
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {

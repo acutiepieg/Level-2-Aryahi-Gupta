@@ -12,7 +12,7 @@ public class ObjectManager {
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
 	Rectangle ghostFutureBox;
-	
+
 	Random r = new Random();
 
 	public ObjectManager(PacGirlObject pacGirl) {
@@ -24,7 +24,7 @@ public class ObjectManager {
 	public void addMazeObject(MazeObject maze) {
 		mazes.add(maze);
 	}
-	
+
 	public void addGhostObject(GhostObject ghost) {
 		ghosts.add(ghost);
 	}
@@ -34,20 +34,25 @@ public class ObjectManager {
 			m.draw(g);
 		}
 		pacGirl.draw(g);
-		for(GhostObject ghost : ghosts) {
+		for (GhostObject ghost : ghosts) {
 			ghost.draw(g);
 		}
 
 	}
 
 	public void ghostCollision() {
-		for(GhostObject g: ghosts) {
-		ghostFutureBox = getGhostFutureRect(g);
-		if (checkMazeCollision(ghostFutureBox) == true) {
-			g.speed = g.speed * -1;
-			//g.direction = r.nextInt(3);
-		}
-		g.update();
+		for (GhostObject g : ghosts) {
+			ghostFutureBox = getGhostFutureRect(g);
+			int r2 = r.nextInt(101);
+			System.out.println(r2);
+			if (checkMazeCollision(ghostFutureBox) == true) {
+				changeDirection(g);
+			}
+			g.update();
+			
+			if (r2 > 99) {
+				changeDirection(g);
+			}
 		}
 	}
 
@@ -74,4 +79,9 @@ public class ObjectManager {
 
 		return ghostFutureRect;
 	}
+
+	public void changeDirection(GhostObject g) {
+		g.direction = r.nextInt(4);
+	}	
+	
 }
