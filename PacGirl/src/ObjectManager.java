@@ -42,17 +42,19 @@ public class ObjectManager {
 
 	public void ghostCollision() {
 		for (GhostObject g : ghosts) {
-			ghostFutureBox = getGhostFutureRect(g);
-			int r2 = r.nextInt(101);
-			System.out.println(r2);
-			if (checkMazeCollision(ghostFutureBox) == true) {
-				changeDirection(g);
+			ghostFutureBox = getGhostFutureRect(g, g.direction);
+			int r2 = r.nextInt(201);
+			if (checkMazeCollision(ghostFutureBox) == true || r2 > 199) {
+				while (true) {
+					int r3 = r.nextInt(4);
+					ghostFutureBox = getGhostFutureRect(g, r3);
+					if (checkMazeCollision(ghostFutureBox) == false) {
+						g.direction = r3;
+						break;
+					}
+				}
 			}
 			g.update();
-			
-			if (r2 > 99) {
-				changeDirection(g);
-			}
 		}
 	}
 
@@ -65,23 +67,19 @@ public class ObjectManager {
 		return false;
 	}
 
-	public Rectangle getGhostFutureRect(GhostObject ghost) {
+	public Rectangle getGhostFutureRect(GhostObject ghost, int dir) {
 		Rectangle ghostFutureRect = null;
-		if (ghost.direction == ghost.up) {
+		if (dir == ghost.up) {
 			ghostFutureRect = new Rectangle(ghost.x, ghost.y - ghost.speed, MazeObject.width, MazeObject.height);
-		} else if (ghost.direction == ghost.down) {
+		} else if (dir == ghost.down) {
 			ghostFutureRect = new Rectangle(ghost.x, ghost.y + ghost.speed, MazeObject.width, MazeObject.height);
-		} else if (ghost.direction == ghost.right) {
+		} else if (dir == ghost.right) {
 			ghostFutureRect = new Rectangle(ghost.x + ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
-		} else if (ghost.direction == ghost.left) {
+		} else if (dir == ghost.left) {
 			ghostFutureRect = new Rectangle(ghost.x - ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
 		}
 
 		return ghostFutureRect;
 	}
 
-	public void changeDirection(GhostObject g) {
-		g.direction = r.nextInt(4);
-	}	
-	
 }

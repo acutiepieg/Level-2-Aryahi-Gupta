@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g3;
 	GhostObject g4;
 	GhostObject g5;
+	GhostObject g6;
 	int fps;
 
 	int speed = 1;
@@ -39,7 +41,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static BufferedImage pacGirlImg;
 	final static int numRows = 20;
 	final static int numCol = 21;
-	int[][] states = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	int[][] states = { 
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1 },
@@ -70,11 +73,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 4, GhostObject.down);
-		g2 = new GhostObject(1, 16, GhostObject.right);
-		g3 = new GhostObject(5, 12, GhostObject.left);
-		g4 = new GhostObject(11, 4, GhostObject.up);
-		g5 = new GhostObject(2, 20, GhostObject.down);
+		g1 = new GhostObject(12, 5, GhostObject.down,Color.CYAN);
+		g2 = new GhostObject(2, 16, GhostObject.right, Color.ORANGE);
+		g3 = new GhostObject(5, 12, GhostObject.left, Color.PINK);
+		g4 = new GhostObject(11, 5, GhostObject.up, Color.RED);
+		g5 = new GhostObject(2, 18, GhostObject.right, Color.WHITE);
+		g6 = new GhostObject(1, 1 , GhostObject.down, Color.GREEN);
 		om = new ObjectManager(pgo);
 		fps = 60;
 		
@@ -82,6 +86,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		om.addGhostObject(g2);
 		om.addGhostObject(g3);
 		om.addGhostObject(g4);
+		om.addGhostObject(g5);
+		om.addGhostObject(g6);
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
@@ -99,24 +105,24 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void paintComponent(Graphics g) {
 
 		if (moveUp == true) {
-			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - 5, PacGirlObject.width, PacGirlObject.height);
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width, PacGirlObject.height);
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y -= speed;
 			} else {
 
 			}
 		} else if (moveDown == true) {
-			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + 5, PacGirlObject.width, PacGirlObject.height);
+			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + speed, PacGirlObject.width, PacGirlObject.height);
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.y += speed;
 			}
 		} else if (moveRight == true) {
-			Rectangle colBox = new Rectangle(pgo.getX() + 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			Rectangle colBox = new Rectangle(pgo.getX() + speed, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x += speed;
 			}
 		} else if (moveLeft == true) {
-			Rectangle colBox = new Rectangle(pgo.getX() - 5, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
+			Rectangle colBox = new Rectangle(pgo.getX() - speed, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
 			if (om.checkMazeCollision(colBox) == false) {
 				pgo.x -= speed;
 			}
@@ -159,7 +165,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	
 	public void checkGhostCollision(Rectangle colBox) {	
 		for(GhostObject g : om.ghosts) {
-		if(colBox.intersects(om.getGhostFutureRect(g))) {
+		if(colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
 			JOptionPane.showMessageDialog(this, "You have collided with a ghost. Game Over");
 			System.exit(0);
 		}
