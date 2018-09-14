@@ -39,6 +39,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	static int numGhosts = 3;
 
 	public static BufferedImage pacGirlImg;
+	public static BufferedImage cyanGhost;
+	public static BufferedImage blueGhost;
+	public static BufferedImage darkPinkGhost;
+	public static BufferedImage orangeGhost;
+	public static BufferedImage pinkGhost;
+	public static BufferedImage redGhost;
 	final static int numRows = 20;
 	final static int numCol = 21;
 	int[][] states = { 
@@ -67,18 +73,24 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		try {
 			pacGirlImg = ImageIO.read(this.getClass().getResourceAsStream("Mp1bpihs_400x400.png"));
+			cyanGhost = ImageIO.read(this.getClass().getResourceAsStream("cyanGhost.png"));
+			blueGhost = ImageIO.read(this.getClass().getResourceAsStream("blueGhost.png"));
+			darkPinkGhost = ImageIO.read(this.getClass().getResourceAsStream("darkPinkGhost.png"));
+			orangeGhost = ImageIO.read(this.getClass().getResourceAsStream("orangeGhost.png"));
+			pinkGhost = ImageIO.read(this.getClass().getResourceAsStream("pinkGhost.png"));
+			redGhost = ImageIO.read(this.getClass().getResourceAsStream("redGhost.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
 		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 5, GhostObject.down,Color.CYAN);
-		g2 = new GhostObject(2, 16, GhostObject.right, Color.ORANGE);
-		g3 = new GhostObject(5, 12, GhostObject.left, Color.PINK);
-		g4 = new GhostObject(11, 5, GhostObject.up, Color.RED);
-		g5 = new GhostObject(2, 18, GhostObject.right, Color.WHITE);
-		g6 = new GhostObject(1, 1 , GhostObject.down, Color.GREEN);
+		g1 = new GhostObject(12, 5, GhostObject.down, cyanGhost);
+		g2 = new GhostObject(1, 16, GhostObject.right, orangeGhost);
+		g3 = new GhostObject(5, 12, GhostObject.left, pinkGhost);
+		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
+		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
+		g6 = new GhostObject(1, 1 , GhostObject.down, blueGhost);
 		om = new ObjectManager(pgo);
 		fps = 60;
 		
