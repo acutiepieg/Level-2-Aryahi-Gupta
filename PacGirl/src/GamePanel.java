@@ -19,6 +19,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	ObjectManager om;
 	MazeObject mo;
 	PacGirlObject pgo;
+
+	int menuState = 1;
+	static final int start = 1;
+	static final int game = 2;
+	static final int end = 3;
+
 	GhostObject g1;
 	GhostObject g2;
 	GhostObject g3;
@@ -47,8 +53,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static BufferedImage redGhost;
 	final static int numRows = 20;
 	final static int numCol = 21;
-	int[][] states = { 
-			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	int[][] states = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1 },
@@ -90,10 +95,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g3 = new GhostObject(5, 12, GhostObject.left, pinkGhost);
 		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
 		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
-		g6 = new GhostObject(1, 1 , GhostObject.down, blueGhost);
+		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
 		om = new ObjectManager(pgo);
 		fps = 60;
-		
+
 		om.addGhostObject(g1);
 		om.addGhostObject(g2);
 		om.addGhostObject(g3);
@@ -116,35 +121,54 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	public void paintComponent(Graphics g) {
 
-		if (moveUp == true) {
-			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width, PacGirlObject.height);
-			if (om.checkMazeCollision(colBox) == false) {
-				pgo.y -= speed;
-			} else {
-
-			}
-		} else if (moveDown == true) {
-			Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + speed, PacGirlObject.width, PacGirlObject.height);
-			if (om.checkMazeCollision(colBox) == false) {
-				pgo.y += speed;
-			}
-		} else if (moveRight == true) {
-			Rectangle colBox = new Rectangle(pgo.getX() + speed, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			if (om.checkMazeCollision(colBox) == false) {
-				pgo.x += speed;
-			}
-		} else if (moveLeft == true) {
-			Rectangle colBox = new Rectangle(pgo.getX() - speed, pgo.getY(), PacGirlObject.width, PacGirlObject.height);
-			if (om.checkMazeCollision(colBox) == false) {
-				pgo.x -= speed;
-			}
+		if (menuState == start) {
+			om.drawStartState(g);
 		}
-		om.ghostCollision();
-		om.draw(g);
-		checkGhostCollision(pgo.cBox);
+
+		if (menuState == game) {
+			if (moveUp == true) {
+				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width,
+						PacGirlObject.height);
+				if (om.checkMazeCollision(colBox) == false) {
+					pgo.y -= speed;
+				} else {
+
+				}
+			} else if (moveDown == true) {
+				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + speed, PacGirlObject.width,
+						PacGirlObject.height);
+				if (om.checkMazeCollision(colBox) == false) {
+					pgo.y += speed;
+				}
+			} else if (moveRight == true) {
+				Rectangle colBox = new Rectangle(pgo.getX() + speed, pgo.getY(), PacGirlObject.width,
+						PacGirlObject.height);
+				if (om.checkMazeCollision(colBox) == false) {
+					pgo.x += speed;
+				}
+			} else if (moveLeft == true) {
+				Rectangle colBox = new Rectangle(pgo.getX() - speed, pgo.getY(), PacGirlObject.width,
+						PacGirlObject.height);
+				if (om.checkMazeCollision(colBox) == false) {
+					pgo.x -= speed;
+				}
+			}
+			om.ghostCollision();
+			om.drawGameState(g);
+			checkGhostCollision(pgo.cBox);
+		}
 
 		repaint();
 
+	}
+
+	public void checkGhostCollision(Rectangle colBox) {
+		for (GhostObject g : om.ghosts) {
+			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
+				JOptionPane.showMessageDialog(this, "You have collided with a ghost. Game Over");
+				System.exit(0);
+			}
+		}
 	}
 
 	@Override
@@ -156,32 +180,32 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			moveRight = true;
+
+		if (menuState == start) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				menuState = game;
+			}
 		}
 
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			moveLeft = true;
+		if (menuState == game) {
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				moveRight = true;
+			}
 
-		} 
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			moveUp = true;
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				moveLeft = true;
 
-		} 
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				moveUp = true;
+
+			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			moveDown = true;
+				moveDown = true;
+			}
 		}
 
 		repaint();
-	}
-	
-	public void checkGhostCollision(Rectangle colBox) {	
-		for(GhostObject g : om.ghosts) {
-		if(colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
-			JOptionPane.showMessageDialog(this, "You have collided with a ghost. Game Over");
-			System.exit(0);
-		}
-	}
 	}
 
 	@Override

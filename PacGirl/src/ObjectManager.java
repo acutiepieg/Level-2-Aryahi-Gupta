@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -12,6 +14,7 @@ public class ObjectManager {
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
 	Rectangle ghostFutureBox;
+	Font font = new Font ("Arial", Font.PLAIN, 80);
 
 	Random r = new Random();
 
@@ -29,7 +32,19 @@ public class ObjectManager {
 		ghosts.add(ghost);
 	}
 
-	public void draw(Graphics g) {
+	public void drawStartState(Graphics g) {
+		for (MazeObject m : mazes) {
+			m.draw(g);
+		}
+		
+		g.setColor(Color.white);
+		g.fillRect(295, 285, 400, 400);
+		g.setColor(Color.BLUE);
+		g.setFont(font);
+		g.drawString("PacGirl", 295, 285);
+	}
+	
+	public void drawGameState(Graphics g) {
 		for (MazeObject m : mazes) {
 			m.draw(g);
 		}
