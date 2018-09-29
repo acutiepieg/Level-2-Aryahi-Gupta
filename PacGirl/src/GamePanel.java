@@ -20,10 +20,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	MazeObject mo;
 	PacGirlObject pgo;
 
-	int menuState = 1;
+	static int menuState = 1;
 	static final int start = 1;
 	static final int game = 2;
 	static final int end = 3;
+	
+	static Integer score = 0;
 
 	GhostObject g1;
 	GhostObject g2;
@@ -157,6 +159,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			om.drawGameState(g);
 			checkGhostCollision(pgo.cBox);
 		}
+		
+		if (menuState == end) {
+			om.drawEndState(g);
+		}
 
 		repaint();
 
@@ -165,8 +171,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void checkGhostCollision(Rectangle colBox) {
 		for (GhostObject g : om.ghosts) {
 			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
-				JOptionPane.showMessageDialog(this, "You have collided with a ghost. Game Over");
-				System.exit(0);
+				menuState = 3;
 			}
 		}
 	}
@@ -202,6 +207,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				moveDown = true;
+			}
+		}
+		
+		if (menuState == end) {
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				menuState = start;
 			}
 		}
 

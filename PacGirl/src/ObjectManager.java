@@ -14,7 +14,11 @@ public class ObjectManager {
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
 	Rectangle ghostFutureBox;
-	Font font = new Font ("Arial", Font.PLAIN, 80);
+	Font phosphate = new Font ("Phosphate", Font.PLAIN, 80);
+	Font phosphateSmall = new Font ("Phosphate", Font.PLAIN, 70);
+	Font text = new Font ("SignPainter", Font.PLAIN, 30);
+	Font textBig = new Font ("SignPainter", Font.PLAIN, 40);
+	Font textEvenBigger = new Font ("SignPainter", Font.PLAIN, 60);
 
 	Random r = new Random();
 
@@ -40,8 +44,32 @@ public class ObjectManager {
 		g.setColor(Color.white);
 		g.fillRect(295, 285, 400, 400);
 		g.setColor(Color.BLUE);
-		g.setFont(font);
-		g.drawString("PacGirl", 295, 285);
+		g.setFont(phosphate);
+		g.drawString("PacGirl", 340, 345);
+		g.setFont(text);
+		g.drawString("Use the arrow keys to avoid the ghosts.", 305, 410);
+		g.drawString("Get the cherry before the score runs out.", 305, 460);
+		g.setColor(Color.BLACK);
+		g.setFont(textBig);
+		g.drawString("Press ENTER to start", 360, 560);
+		
+	}
+	
+	public void drawEndState(Graphics g) {
+		for (MazeObject m : mazes) {
+			m.draw(g);
+		}
+		
+		g.setColor(Color.RED);
+		g.fillRect(295, 285, 400, 400);
+		g.setColor(Color.BLACK);
+		g.setFont(phosphateSmall);
+		g.drawString("Game Over", 312, 345);
+		g.setFont(textBig);
+		g.drawString("Your score is ", 400, 410);
+		g.drawString("Press ENTER to play again", 330, 560);
+		g.setFont(textEvenBigger);
+		g.drawString(GamePanel.score.toString(), 470, 470);
 	}
 	
 	public void drawGameState(Graphics g) {
