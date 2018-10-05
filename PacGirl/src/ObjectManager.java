@@ -14,11 +14,11 @@ public class ObjectManager {
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
 	Rectangle ghostFutureBox;
-	Font phosphate = new Font ("Phosphate", Font.PLAIN, 80);
-	Font phosphateSmall = new Font ("Phosphate", Font.PLAIN, 70);
-	Font text = new Font ("SignPainter", Font.PLAIN, 30);
-	Font textBig = new Font ("SignPainter", Font.PLAIN, 40);
-	Font textEvenBigger = new Font ("SignPainter", Font.PLAIN, 60);
+	Font phosphate = new Font("Phosphate", Font.PLAIN, 80);
+	Font phosphateSmall = new Font("Phosphate", Font.PLAIN, 70);
+	Font text = new Font("SignPainter", Font.PLAIN, 30);
+	Font textBig = new Font("SignPainter", Font.PLAIN, 40);
+	Font textEvenBigger = new Font("SignPainter", Font.PLAIN, 60);
 
 	Random r = new Random();
 
@@ -26,6 +26,12 @@ public class ObjectManager {
 		mazes = new ArrayList<MazeObject>();
 		ghosts = new ArrayList<GhostObject>();
 		this.pacGirl = pacGirl;
+	}
+
+	public void reset(PacGirlObject pgo) {
+		ghosts.clear();
+		pgo = new PacGirlObject(10, 13);
+
 	}
 
 	public void addMazeObject(MazeObject maze) {
@@ -40,7 +46,7 @@ public class ObjectManager {
 		for (MazeObject m : mazes) {
 			m.draw(g);
 		}
-		
+
 		g.setColor(Color.white);
 		g.fillRect(295, 285, 400, 400);
 		g.setColor(Color.BLUE);
@@ -52,14 +58,14 @@ public class ObjectManager {
 		g.setColor(Color.BLACK);
 		g.setFont(textBig);
 		g.drawString("Press ENTER to start", 360, 560);
-		
+
 	}
-	
+
 	public void drawEndState(Graphics g) {
 		for (MazeObject m : mazes) {
 			m.draw(g);
 		}
-		
+
 		g.setColor(Color.RED);
 		g.fillRect(295, 285, 400, 400);
 		g.setColor(Color.BLACK);
@@ -71,7 +77,7 @@ public class ObjectManager {
 		g.setFont(textEvenBigger);
 		g.drawString(GamePanel.score.toString(), 470, 470);
 	}
-	
+
 	public void drawGameState(Graphics g) {
 		for (MazeObject m : mazes) {
 			m.draw(g);

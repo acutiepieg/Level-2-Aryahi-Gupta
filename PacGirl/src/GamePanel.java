@@ -24,7 +24,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	static final int start = 1;
 	static final int game = 2;
 	static final int end = 3;
-	
+	static final int win = 4;
+
 	static Integer score = 0;
 
 	GhostObject g1;
@@ -99,14 +100,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
 		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
 		om = new ObjectManager(pgo);
+		addedGhosts();
 		fps = 60;
-
-		om.addGhostObject(g1);
-		om.addGhostObject(g2);
-		om.addGhostObject(g3);
-		om.addGhostObject(g4);
-		om.addGhostObject(g5);
-		om.addGhostObject(g6);
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
@@ -119,6 +114,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		Timer timer = new Timer(1000 / fps, this);
 		timer.start();
 
+	}
+
+	public void addedGhosts() {
+		om.addGhostObject(g1);
+		om.addGhostObject(g2);
+		om.addGhostObject(g3);
+		om.addGhostObject(g4);
+		om.addGhostObject(g5);
+		om.addGhostObject(g6);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -159,7 +163,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			om.drawGameState(g);
 			checkGhostCollision(pgo.cBox);
 		}
-		
+
 		if (menuState == end) {
 			om.drawEndState(g);
 		}
@@ -171,7 +175,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void checkGhostCollision(Rectangle colBox) {
 		for (GhostObject g : om.ghosts) {
 			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
-				menuState = 3;
+				menuState = end;
 			}
 		}
 	}
@@ -208,10 +212,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				moveDown = true;
 			}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				menuState = end;
+			}
 		}
-		
+
 		if (menuState == end) {
-			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				om.reset(pgo);
+				addedGhosts();
 				menuState = start;
 			}
 		}
