@@ -23,8 +23,6 @@ public class GhostObject {
 		this.ghostImage = ghostImage;
 		x = (PacGirl.fWidth / GamePanel.numCol) * col;
 		y = (PacGirl.fHeight / GamePanel.numRows) * row;
-		System.out.println(x);
-		System.out.println(y);
 	}
 
 	public void draw(Graphics g) {

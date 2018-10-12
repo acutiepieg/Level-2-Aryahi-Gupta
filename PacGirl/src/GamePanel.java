@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -7,10 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -23,10 +20,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	static int menuState = 1;
 	static final int start = 1;
 	static final int game = 2;
-	static final int end = 3;
+	static final int lost = 3;
 	static final int win = 4;
 
-	static Integer score = 0;
+	static Integer score = 10000;
+	int count = 0;
 
 	GhostObject g1;
 	GhostObject g2;
@@ -92,16 +90,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			e.printStackTrace();
 
 		}
-		pgo = new PacGirlObject(10, 13);
-		g1 = new GhostObject(12, 5, GhostObject.down, cyanGhost);
-		g2 = new GhostObject(1, 16, GhostObject.right, orangeGhost);
-		g3 = new GhostObject(5, 12, GhostObject.left, pinkGhost);
-		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
-		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
-		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
+
+		makePacGirl();
 		om = new ObjectManager(pgo);
-		addedGhosts();
-		fps = 60;
+		resetGhosts();
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCol; j++) {
@@ -111,18 +103,31 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 
+		fps = 60;
+
 		Timer timer = new Timer(1000 / fps, this);
 		timer.start();
 
 	}
 
-	public void addedGhosts() {
+	public void resetGhosts() {
+		g1 = new GhostObject(12, 5, GhostObject.down, cyanGhost);
+		g2 = new GhostObject(1, 16, GhostObject.right, orangeGhost);
+		g3 = new GhostObject(5, 12, GhostObject.left, pinkGhost);
+		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
+		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
+		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
+
 		om.addGhostObject(g1);
 		om.addGhostObject(g2);
 		om.addGhostObject(g3);
 		om.addGhostObject(g4);
 		om.addGhostObject(g5);
 		om.addGhostObject(g6);
+	}
+
+	public void makePacGirl() {
+		pgo = new PacGirlObject(10, 13);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -164,8 +169,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			checkGhostCollision(pgo.cBox);
 		}
 
-		if (menuState == end) {
+		if (menuState == lost) {
 			om.drawEndState(g);
+		}
+		
+		if(menuState == win) {
+			
 		}
 
 		repaint();
@@ -175,7 +184,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void checkGhostCollision(Rectangle colBox) {
 		for (GhostObject g : om.ghosts) {
 			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
-				menuState = end;
+				menuState = lost;
 			}
 		}
 	}
@@ -193,6 +202,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (menuState == start) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				menuState = game;
+				e.consume();
 			}
 		}
 
@@ -212,16 +222,23 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 				moveDown = true;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				menuState = end;
+		}
+
+		if (menuState == lost) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				makePacGirl();
+				om.reset(pgo);
+				resetGhosts();
+				menuState = game;
 			}
 		}
 
-		if (menuState == end) {
+		if (menuState == win) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				makePacGirl();
 				om.reset(pgo);
-				addedGhosts();
-				menuState = start;
+				resetGhosts();
+				menuState =game;
 			}
 		}
 
@@ -232,7 +249,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			System.out.println("release right");
 			moveRight = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -250,7 +266,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		if (menuState == game) {
+			count++;
+			if (count >= 5) {
+				count = 0;
+				score = score - 1;
+				System.out.println(score);
+				// score decreases by 12 points/second
+			}
+		if(score == 0) {
+			menuState = lost;
+		}
+		
+		}
 	}
 
 }

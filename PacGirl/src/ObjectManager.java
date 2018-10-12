@@ -14,6 +14,7 @@ public class ObjectManager {
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
 	Rectangle ghostFutureBox;
+	
 	Font phosphate = new Font("Phosphate", Font.PLAIN, 80);
 	Font phosphateSmall = new Font("Phosphate", Font.PLAIN, 70);
 	Font text = new Font("SignPainter", Font.PLAIN, 30);
@@ -30,7 +31,7 @@ public class ObjectManager {
 
 	public void reset(PacGirlObject pgo) {
 		ghosts.clear();
-		pgo = new PacGirlObject(10, 13);
+		this.pacGirl = pgo;
 
 	}
 
@@ -71,11 +72,10 @@ public class ObjectManager {
 		g.setColor(Color.BLACK);
 		g.setFont(phosphateSmall);
 		g.drawString("Game Over", 312, 345);
-		g.setFont(textBig);
-		g.drawString("Your score is ", 400, 410);
-		g.drawString("Press ENTER to play again", 330, 560);
 		g.setFont(textEvenBigger);
-		g.drawString(GamePanel.score.toString(), 470, 470);
+		g.drawString("You Lost", 410, 440);
+		g.setFont(textBig);
+		g.drawString("Press ENTER to play again", 330, 560);
 	}
 
 	public void drawGameState(Graphics g) {
@@ -86,7 +86,9 @@ public class ObjectManager {
 		for (GhostObject ghost : ghosts) {
 			ghost.draw(g);
 		}
-
+		g.setColor(Color.WHITE);
+		g.setFont(textBig);
+		g.drawString("Score - " + GamePanel.score, 790, 40);
 	}
 
 	public void ghostCollision() {
