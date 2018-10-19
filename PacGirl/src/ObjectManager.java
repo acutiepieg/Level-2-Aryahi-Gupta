@@ -90,6 +90,20 @@ public class ObjectManager {
 		g.setFont(textBig);
 		g.drawString("Score - " + GamePanel.score, 790, 40);
 	}
+	
+	public void drawWinState(Graphics g) {
+		for (MazeObject m : mazes) {
+			m.draw(g);
+		}
+
+		g.setColor(Color.GREEN);
+		g.fillRect(295, 285, 400, 400);
+		g.setColor(Color.BLACK);
+		g.setFont(phosphateSmall);
+		g.drawString("You Won", 340, 345);
+		g.setFont(textBig);
+		g.drawString("Your score was " + GamePanel.score, 360, 440);
+	}
 
 	public void ghostCollision() {
 		for (GhostObject g : ghosts) {

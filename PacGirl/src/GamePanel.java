@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	ObjectManager om;
 	MazeObject mo;
 	PacGirlObject pgo;
+	CherryObject co;
 
 	static int menuState = 1;
 	static final int start = 1;
@@ -91,6 +92,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 
+		co = new CherryObject(10*21, 2*20, 100, 100);
 		makePacGirl();
 		om = new ObjectManager(pgo);
 		resetGhosts();
@@ -174,7 +176,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		
 		if(menuState == win) {
-			
+			om.drawWinState(g);
 		}
 
 		repaint();
