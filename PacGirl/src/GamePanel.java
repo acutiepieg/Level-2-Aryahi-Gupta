@@ -92,9 +92,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 
-		co = new CherryObject(10*21, 2*20, 100, 100);
+		co = new CherryObject(10*(PacGirl.fWidth/21), 2*(PacGirl.fHeight/20), 35, 35);
 		makePacGirl();
-		om = new ObjectManager(pgo);
+		om = new ObjectManager(pgo, co);
 		resetGhosts();
 
 		for (int i = 0; i < numRows; i++) {
@@ -167,6 +167,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				}
 			}
 			om.ghostCollision();
+			om.cherryCollision();
 			om.drawGameState(g);
 			checkGhostCollision(pgo.cBox);
 		}
@@ -276,7 +277,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				System.out.println(score);
 				// score decreases by 12 points/second
 			}
-		if(score == 0) {
+		if(score < 0) {
 			menuState = lost;
 		}
 		

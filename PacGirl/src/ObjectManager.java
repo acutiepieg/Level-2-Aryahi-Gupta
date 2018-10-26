@@ -13,6 +13,7 @@ public class ObjectManager {
 	ArrayList<MazeObject> mazes;
 	ArrayList<GhostObject> ghosts;
 	PacGirlObject pacGirl;
+	CherryObject co;
 	Rectangle ghostFutureBox;
 	
 	Font phosphate = new Font("Phosphate", Font.PLAIN, 80);
@@ -23,14 +24,16 @@ public class ObjectManager {
 
 	Random r = new Random();
 
-	public ObjectManager(PacGirlObject pacGirl) {
+	public ObjectManager(PacGirlObject pacGirl, CherryObject co) {
 		mazes = new ArrayList<MazeObject>();
 		ghosts = new ArrayList<GhostObject>();
 		this.pacGirl = pacGirl;
+		this.co = co;
 	}
 
 	public void reset(PacGirlObject pgo) {
 		ghosts.clear();
+		GamePanel.score = 10000;
 		this.pacGirl = pgo;
 
 	}
@@ -83,6 +86,7 @@ public class ObjectManager {
 			m.draw(g);
 		}
 		pacGirl.draw(g);
+		co.draw(g);
 		for (GhostObject ghost : ghosts) {
 			ghost.draw(g);
 		}
@@ -103,6 +107,8 @@ public class ObjectManager {
 		g.drawString("You Won", 340, 345);
 		g.setFont(textBig);
 		g.drawString("Your score was " + GamePanel.score, 360, 440);
+		g.setFont(textBig);
+		g.drawString("Press ENTER to play again", 330, 560);
 	}
 
 	public void ghostCollision() {
@@ -122,6 +128,12 @@ public class ObjectManager {
 			g.update();
 		}
 	}
+	
+	public void cherryCollision() {
+		if(pacGirl.cBox.intersects(co.cBox)) {
+			GamePanel.menuState = GamePanel.win;
+		}
+	}
 
 	public boolean checkMazeCollision(Rectangle colBox) {
 		for (MazeObject m : mazes) {
@@ -134,13 +146,13 @@ public class ObjectManager {
 
 	public Rectangle getGhostFutureRect(GhostObject ghost, int dir) {
 		Rectangle ghostFutureRect = null;
-		if (dir == ghost.up) {
+		if (dir == GhostObject.up) {
 			ghostFutureRect = new Rectangle(ghost.x, ghost.y - ghost.speed, MazeObject.width, MazeObject.height);
-		} else if (dir == ghost.down) {
+		} else if (dir == GhostObject.down) {
 			ghostFutureRect = new Rectangle(ghost.x, ghost.y + ghost.speed, MazeObject.width, MazeObject.height);
-		} else if (dir == ghost.right) {
+		} else if (dir == GhostObject.right) {
 			ghostFutureRect = new Rectangle(ghost.x + ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
-		} else if (dir == ghost.left) {
+		} else if (dir == GhostObject.left) {
 			ghostFutureRect = new Rectangle(ghost.x - ghost.speed, ghost.y, MazeObject.width, MazeObject.height);
 		}
 
