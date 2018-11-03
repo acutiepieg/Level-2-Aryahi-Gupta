@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -36,8 +37,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	int fps;
 
 	int speed = 1;
-	boolean moveUp = false;
 	boolean moveDown = false;
+	boolean moveUp = false;
 	boolean moveRight = false;
 	boolean moveLeft = false;
 
@@ -53,6 +54,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static BufferedImage orangeGhost;
 	public static BufferedImage pinkGhost;
 	public static BufferedImage redGhost;
+	public static BufferedImage cherry;
+
+	Random r = new Random();
+	int[][] cherryLocations = { { 4, 1 }, { 19, 20 }, { 5, 13 }, { 19, 11 }, { 2, 20 } };
+
 	final static int numRows = 20;
 	final static int numCol = 21;
 	int[][] states = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -77,7 +83,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
 	public GamePanel() {
-
 		try {
 			pacGirlImg = ImageIO.read(this.getClass().getResourceAsStream("Mp1bpihs_400x400.png"));
 			cyanGhost = ImageIO.read(this.getClass().getResourceAsStream("cyanGhost.png"));
@@ -86,13 +91,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			orangeGhost = ImageIO.read(this.getClass().getResourceAsStream("orangeGhost.png"));
 			pinkGhost = ImageIO.read(this.getClass().getResourceAsStream("pinkGhost.png"));
 			redGhost = ImageIO.read(this.getClass().getResourceAsStream("redGhost.png"));
+			cherry = ImageIO.read(this.getClass().getResourceAsStream("cherry.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
 
-		co = new CherryObject(10*(PacGirl.fWidth/21), 2*(PacGirl.fHeight/20), 35, 35);
+		co = new CherryObject(10 * (PacGirl.fWidth / 21), 2 * (PacGirl.fHeight / 20), 35, 35);
 		makePacGirl();
 		om = new ObjectManager(pgo, co);
 		resetGhosts();
@@ -175,8 +181,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (menuState == lost) {
 			om.drawEndState(g);
 		}
-		
-		if(menuState == win) {
+
+		if (menuState == win) {
 			om.drawWinState(g);
 		}
 
@@ -241,7 +247,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				makePacGirl();
 				om.reset(pgo);
 				resetGhosts();
-				menuState =game;
+				menuState = game;
 			}
 		}
 
@@ -271,16 +277,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		if (menuState == game) {
 			count++;
-			if (count >= 5) {
-				count = 0;
+			if (count % 5 == 0) {
 				score = score - 1;
-				System.out.println(score);
 				// score decreases by 12 points/second
 			}
-		if(score < 0) {
-			menuState = lost;
-		}
-		
+			if (count % 300 == 0) {
+				int ran = r.nextInt(cherryLocations.length);
+				co.x = cherryLocations[ran][0] * (PacGirl.fWidth / 21);
+				co.y = cherryLocations[ran][1] * (PacGirl.fWidth / 20);
+			}
+			if (score < 0) {
+				menuState = lost;
+			}
+
 		}
 	}
 

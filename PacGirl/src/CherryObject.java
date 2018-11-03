@@ -18,8 +18,7 @@ public class CherryObject {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect(x, y, width, height);
+		g.drawImage(GamePanel.cherry, x, y, 45, 45, null);
 		cBox.setBounds(x, y, width, height);
 	}
 
