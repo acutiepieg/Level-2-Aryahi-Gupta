@@ -10,7 +10,7 @@ public class MazeObject {
 	int x;
 	int y;
 	static final int width = PacGirl.fWidth / GamePanel.numCol;
-	static final int height =  (PacGirl.fHeight - 60) / GamePanel.numRows;
+	static final int height =  (PacGirl.fHeight) / GamePanel.numRows;
 	int row;
 	int col;
 	int state;

@@ -12,6 +12,7 @@ public class ObjectManager {
 
 	ArrayList<MazeObject> mazes;
 	ArrayList<GhostObject> ghosts;
+	
 	PacGirlObject pacGirl;
 	CherryObject co;
 	Rectangle ghostFutureBox;
@@ -109,6 +110,7 @@ public class ObjectManager {
 		g.drawString("Your score was " + GamePanel.score, 360, 440);
 		g.setFont(textBig);
 		g.drawString("Press ENTER to play again", 330, 560);
+	
 	}
 
 	public void ghostCollision() {
@@ -132,6 +134,7 @@ public class ObjectManager {
 	public void cherryCollision() {
 		if(pacGirl.cBox.intersects(co.cBox)) {
 			GamePanel.menuState = GamePanel.win;
+			GamePanel.numWins ++;
 		}
 	}
 

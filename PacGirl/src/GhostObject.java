@@ -30,15 +30,15 @@ public class GhostObject {
 	}
 
 	public void update() {
-		if (direction == up) {
-			y = y - speed;
-		} else if (direction == down) {
-			y = y + speed;
-		} else if (direction == right) {
-			x = x + speed;
-		} else if (direction == left) {
-			x = x - speed;
-		}
+//		if (direction == up) {
+//			y = y - speed;
+//		} else if (direction == down) {
+//			y = y + speed;
+//		} else if (direction == right) {
+//			x = x + speed;
+//		} else if (direction == left) {
+//			x = x - speed;
+//		}
 		
 	}
 	

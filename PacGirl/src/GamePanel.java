@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	static Integer score = 10000;
 	int count = 0;
+	static int numWins = 1;
 
 	GhostObject g1;
 	GhostObject g2;
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g4;
 	GhostObject g5;
 	GhostObject g6;
+	
 	int fps;
 
 	int speed = 1;
@@ -54,10 +56,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static BufferedImage orangeGhost;
 	public static BufferedImage pinkGhost;
 	public static BufferedImage redGhost;
+	public static BufferedImage deadGhost;
 	public static BufferedImage cherry;
 
 	Random r = new Random();
-	int[][] cherryLocations = { { 4, 1 }, { 19, 20 }, { 5, 13 }, { 19, 11 }, { 2, 20 } };
+	int[][] cherryLocations = { { 4, 1 }, { 18, 17 }, { 5, 13 }, { 19, 11 }, { 2, 17 }, {10, 2}};
 
 	final static int numRows = 20;
 	final static int numCol = 21;
@@ -91,6 +94,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			orangeGhost = ImageIO.read(this.getClass().getResourceAsStream("orangeGhost.png"));
 			pinkGhost = ImageIO.read(this.getClass().getResourceAsStream("pinkGhost.png"));
 			redGhost = ImageIO.read(this.getClass().getResourceAsStream("redGhost.png"));
+			deadGhost = ImageIO.read(this.getClass().getResourceAsStream("deadGhost.png"));
 			cherry = ImageIO.read(this.getClass().getResourceAsStream("cherry.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -98,7 +102,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 
-		co = new CherryObject(10 * (PacGirl.fWidth / 21), 2 * (PacGirl.fHeight / 20), 35, 35);
+		co = new CherryObject(18 * (PacGirl.fWidth / numCol), 17 * (PacGirl.fHeight / numRows), 35, 35);
 		makePacGirl();
 		om = new ObjectManager(pgo, co);
 		resetGhosts();
@@ -146,8 +150,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (menuState == game) {
 			if (moveUp == true) {
-				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width,
-						PacGirlObject.height);
+				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width, PacGirlObject.height);
 				if (om.checkMazeCollision(colBox) == false) {
 					pgo.y -= speed;
 				} else {
@@ -180,10 +183,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (menuState == lost) {
 			om.drawEndState(g);
+			resetCherry();
 		}
 
 		if (menuState == win) {
 			om.drawWinState(g);
+			resetCherry();
 		}
 
 		repaint();
@@ -272,6 +277,18 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		repaint();
 	}
 
+	private void resetCherry() {
+		int ran = r.nextInt(cherryLocations.length);
+		co.x = cherryLocations[ran][0] * (PacGirl.fWidth / 21);
+		co.y = cherryLocations[ran][1] * (PacGirl.fWidth / 20);
+	}
+	
+	public void checkWins() {
+		if(numWins % 2 == 0) {
+			om.addGhostObject(new GhostObject(17, 18, GhostObject.up, deadGhost));
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -281,10 +298,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				score = score - 1;
 				// score decreases by 12 points/second
 			}
-			if (count % 300 == 0) {
-				int ran = r.nextInt(cherryLocations.length);
-				co.x = cherryLocations[ran][0] * (PacGirl.fWidth / 21);
-				co.y = cherryLocations[ran][1] * (PacGirl.fWidth / 20);
+			if (count % 250 == 0) {
+				resetCherry();
 			}
 			if (score < 0) {
 				menuState = lost;
@@ -292,5 +307,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 	}
+
+	
 
 }
