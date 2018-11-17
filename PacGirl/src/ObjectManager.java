@@ -1,22 +1,19 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 public class ObjectManager {
 
 	ArrayList<MazeObject> mazes;
 	ArrayList<GhostObject> ghosts;
-	
+
 	PacGirlObject pacGirl;
 	CherryObject co;
 	Rectangle ghostFutureBox;
-	
+
 	Font phosphate = new Font("Phosphate", Font.PLAIN, 80);
 	Font phosphateSmall = new Font("Phosphate", Font.PLAIN, 70);
 	Font text = new Font("SignPainter", Font.PLAIN, 30);
@@ -24,6 +21,7 @@ public class ObjectManager {
 	Font textEvenBigger = new Font("SignPainter", Font.PLAIN, 60);
 
 	Random r = new Random();
+	static int numWins = 1;
 
 	public ObjectManager(PacGirlObject pacGirl, CherryObject co) {
 		mazes = new ArrayList<MazeObject>();
@@ -90,12 +88,13 @@ public class ObjectManager {
 		co.draw(g);
 		for (GhostObject ghost : ghosts) {
 			ghost.draw(g);
+			System.out.println(ghosts.size() + " " + ghost);
 		}
 		g.setColor(Color.WHITE);
 		g.setFont(textBig);
 		g.drawString("Score - " + GamePanel.score, 790, 40);
 	}
-	
+
 	public void drawWinState(Graphics g) {
 		for (MazeObject m : mazes) {
 			m.draw(g);
@@ -110,7 +109,7 @@ public class ObjectManager {
 		g.drawString("Your score was " + GamePanel.score, 360, 440);
 		g.setFont(textBig);
 		g.drawString("Press ENTER to play again", 330, 560);
-	
+
 	}
 
 	public void ghostCollision() {
@@ -130,11 +129,20 @@ public class ObjectManager {
 			g.update();
 		}
 	}
-	
+
 	public void cherryCollision() {
-		if(pacGirl.cBox.intersects(co.cBox)) {
+		if (pacGirl.cBox.intersects(co.cBox)) {
 			GamePanel.menuState = GamePanel.win;
-			GamePanel.numWins ++;
+			numWins++;
+			System.out.println(numWins);
+			checkWins();
+		}
+	}
+
+	public void checkWins() {
+		if (numWins % 2 == 0) {
+			addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
+			System.out.println(ghosts.size());
 		}
 	}
 

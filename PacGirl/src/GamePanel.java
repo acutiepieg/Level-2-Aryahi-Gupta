@@ -27,7 +27,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	static Integer score = 10000;
 	int count = 0;
-	static int numWins = 1;
 
 	GhostObject g1;
 	GhostObject g2;
@@ -35,7 +34,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g4;
 	GhostObject g5;
 	GhostObject g6;
-	
+	GhostObject test;
+
 	int fps;
 
 	int speed = 1;
@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public static BufferedImage cherry;
 
 	Random r = new Random();
-	int[][] cherryLocations = { { 4, 1 }, { 18, 17 }, { 5, 13 }, { 19, 11 }, { 2, 17 }, {10, 2}};
+	int[][] cherryLocations = { { 4, 1 }, { 18, 17 }, { 5, 13 }, { 19, 11 }, { 2, 17 }, { 10, 2 } };
 
 	final static int numRows = 20;
 	final static int numCol = 21;
@@ -129,6 +129,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
 		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
 		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
+		test = new GhostObject(17, 18, GhostObject.up, deadGhost);
 
 		om.addGhostObject(g1);
 		om.addGhostObject(g2);
@@ -136,6 +137,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		om.addGhostObject(g4);
 		om.addGhostObject(g5);
 		om.addGhostObject(g6);
+		// om.addGhostObject(test);
+
 	}
 
 	public void makePacGirl() {
@@ -149,26 +152,31 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 
 		if (menuState == game) {
+
 			if (moveUp == true) {
-				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width, PacGirlObject.height);
+				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() - speed, PacGirlObject.width,
+						PacGirlObject.height);
 				if (om.checkMazeCollision(colBox) == false) {
 					pgo.y -= speed;
 				} else {
 
 				}
-			} else if (moveDown == true) {
+			}
+			if (moveDown == true) {
 				Rectangle colBox = new Rectangle(pgo.getX(), pgo.getY() + speed, PacGirlObject.width,
 						PacGirlObject.height);
 				if (om.checkMazeCollision(colBox) == false) {
 					pgo.y += speed;
 				}
-			} else if (moveRight == true) {
+			}
+			if (moveRight == true) {
 				Rectangle colBox = new Rectangle(pgo.getX() + speed, pgo.getY(), PacGirlObject.width,
 						PacGirlObject.height);
 				if (om.checkMazeCollision(colBox) == false) {
 					pgo.x += speed;
 				}
-			} else if (moveLeft == true) {
+			}
+			if (moveLeft == true) {
 				Rectangle colBox = new Rectangle(pgo.getX() - speed, pgo.getY(), PacGirlObject.width,
 						PacGirlObject.height);
 				if (om.checkMazeCollision(colBox) == false) {
@@ -261,17 +269,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			moveRight = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			moveLeft = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_UP) {
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 			moveUp = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			moveDown = false;
 		}
 		repaint();
@@ -281,14 +285,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		int ran = r.nextInt(cherryLocations.length);
 		co.x = cherryLocations[ran][0] * (PacGirl.fWidth / 21);
 		co.y = cherryLocations[ran][1] * (PacGirl.fWidth / 20);
+		om.addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
 	}
-	
-	public void checkWins() {
-		if(numWins % 2 == 0) {
-			om.addGhostObject(new GhostObject(17, 18, GhostObject.up, deadGhost));
-		}
-	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -307,7 +306,5 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		}
 	}
-
-	
 
 }
