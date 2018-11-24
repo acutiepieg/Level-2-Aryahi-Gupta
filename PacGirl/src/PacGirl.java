@@ -1,7 +1,4 @@
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 
 public class PacGirl {
@@ -12,7 +9,7 @@ public class PacGirl {
 
 	public PacGirl() {
 		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(fWidth, fHeight + 120);
 		gp = new GamePanel();
 
@@ -22,8 +19,7 @@ public class PacGirl {
 	}
 
 	public static void main(String[] args) {
-		PacGirl pg = new PacGirl();
+		new PacGirl();
 	}
 
-	
 }

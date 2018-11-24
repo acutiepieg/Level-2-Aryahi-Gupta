@@ -34,7 +34,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	GhostObject g4;
 	GhostObject g5;
 	GhostObject g6;
-	GhostObject test;
 
 	int fps;
 
@@ -97,12 +96,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			deadGhost = ImageIO.read(this.getClass().getResourceAsStream("deadGhost.png"));
 			cherry = ImageIO.read(this.getClass().getResourceAsStream("cherry.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
 
-		co = new CherryObject(18 * (PacGirl.fWidth / numCol), 17 * (PacGirl.fHeight / numRows), 35, 35);
+		int ran = r.nextInt(cherryLocations.length);
+		co = new CherryObject(cherryLocations[ran][0] * (PacGirl.fWidth / 21), cherryLocations[ran][1] * (PacGirl.fWidth / 20), 35, 35);
 		makePacGirl();
 		om = new ObjectManager(pgo, co);
 		resetGhosts();
@@ -129,7 +128,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g4 = new GhostObject(11, 5, GhostObject.up, redGhost);
 		g5 = new GhostObject(2, 18, GhostObject.right, darkPinkGhost);
 		g6 = new GhostObject(1, 1, GhostObject.down, blueGhost);
-		test = new GhostObject(17, 18, GhostObject.up, deadGhost);
 
 		om.addGhostObject(g1);
 		om.addGhostObject(g2);
@@ -137,7 +135,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		om.addGhostObject(g4);
 		om.addGhostObject(g5);
 		om.addGhostObject(g6);
-		// om.addGhostObject(test);
+		
+		for(int i = 0; i < om.numWins; i++) {
+			om.addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
+		}
 
 	}
 
@@ -213,13 +214,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		repaint();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+
 
 		if (menuState == start) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -285,12 +285,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		int ran = r.nextInt(cherryLocations.length);
 		co.x = cherryLocations[ran][0] * (PacGirl.fWidth / 21);
 		co.y = cherryLocations[ran][1] * (PacGirl.fWidth / 20);
-		om.addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (menuState == game) {
 			count++;
 			if (count % 5 == 0) {

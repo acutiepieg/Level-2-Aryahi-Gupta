@@ -21,7 +21,7 @@ public class ObjectManager {
 	Font textEvenBigger = new Font("SignPainter", Font.PLAIN, 60);
 
 	Random r = new Random();
-	static int numWins = 1;
+	int numWins = 0;
 
 	public ObjectManager(PacGirlObject pacGirl, CherryObject co) {
 		mazes = new ArrayList<MazeObject>();
@@ -88,7 +88,6 @@ public class ObjectManager {
 		co.draw(g);
 		for (GhostObject ghost : ghosts) {
 			ghost.draw(g);
-			System.out.println(ghosts.size() + " " + ghost);
 		}
 		g.setColor(Color.WHITE);
 		g.setFont(textBig);
@@ -134,7 +133,6 @@ public class ObjectManager {
 		if (pacGirl.cBox.intersects(co.cBox)) {
 			GamePanel.menuState = GamePanel.win;
 			numWins++;
-			System.out.println(numWins);
 			checkWins();
 		}
 	}
@@ -142,7 +140,6 @@ public class ObjectManager {
 	public void checkWins() {
 		if (numWins % 2 == 0) {
 			addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
-			System.out.println(ghosts.size());
 		}
 	}
 
