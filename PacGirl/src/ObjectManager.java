@@ -15,7 +15,7 @@ public class ObjectManager {
 	Rectangle ghostFutureBox;
 
 	Font phosphate = new Font("Phosphate", Font.PLAIN, 80);
-	Font phosphateSmall = new Font("Phosphate", Font.PLAIN, 70);
+	Font phosphateSmall = new Font("Phosphate", Font.PLAIN, 65);
 	Font text = new Font("SignPainter", Font.PLAIN, 30);
 	Font textBig = new Font("SignPainter", Font.PLAIN, 40);
 	Font textEvenBigger = new Font("SignPainter", Font.PLAIN, 60);
@@ -32,7 +32,7 @@ public class ObjectManager {
 
 	public void reset(PacGirlObject pgo) {
 		ghosts.clear();
-		GamePanel.score = 10000;
+		GamePanel.timeLeft = 3000;
 		this.pacGirl = pgo;
 
 	}
@@ -56,8 +56,11 @@ public class ObjectManager {
 		g.setFont(phosphate);
 		g.drawString("PacGirl", 340, 345);
 		g.setFont(text);
-		g.drawString("Use the arrow keys to avoid the ghosts.", 305, 410);
-		g.drawString("Get the cherry before the score runs out.", 305, 460);
+		g.drawString("Use the arrow keys to avoid the ghosts.", 310, 410);
+		g.drawString("All the ghosts are bad, do not", 345, 435);
+		g.drawString("attempt to 'eat' the dead ones.", 345, 460);
+		g.drawString("Get the cherry before the score runs out.", 305, 485);
+		g.drawString("This is not a normal PacMan Game!", 318, 510);
 		g.setColor(Color.BLACK);
 		g.setFont(textBig);
 		g.drawString("Press ENTER to start", 360, 560);
@@ -91,7 +94,9 @@ public class ObjectManager {
 		}
 		g.setColor(Color.WHITE);
 		g.setFont(textBig);
-		g.drawString("Score - " + GamePanel.score, 790, 40);
+		g.drawString("Time left - " + GamePanel.timeLeft, 770, 40);
+		g.drawString("Cherries collected - " + numWins, 380, 40);
+		g.drawString("Lives left - " + GamePanel.livesLeft, 170, 40);
 	}
 
 	public void drawWinState(Graphics g) {
@@ -105,10 +110,26 @@ public class ObjectManager {
 		g.setFont(phosphateSmall);
 		g.drawString("You Won", 340, 345);
 		g.setFont(textBig);
-		g.drawString("Your score was " + GamePanel.score, 360, 440);
-		g.setFont(textBig);
+		g.drawString("Time left - " + GamePanel.timeLeft, 360, 440);
+		g.drawString("Cherries collected - " + numWins, 360, 470);
+		g.drawString("Lives left - " + GamePanel.livesLeft, 360, 500);
 		g.drawString("Press ENTER to play again", 330, 560);
 
+	}
+	
+	public void drawNoLivesState(Graphics g){
+		for (MazeObject m : mazes) {
+			m.draw(g);
+		}
+
+		g.setColor(Color.RED);
+		g.fillRect(295, 285, 400, 400);
+		g.setColor(Color.BLACK);
+		g.setFont(phosphateSmall);
+		g.drawString("No Lives Left", 300, 345);
+		g.setFont(textBig);
+		g.drawString("Cherries collected - " + numWins, 360, 440);
+		g.drawString("Press ENTER to restart", 350, 560);
 	}
 
 	public void ghostCollision() {

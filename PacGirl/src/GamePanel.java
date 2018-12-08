@@ -24,8 +24,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	static final int game = 2;
 	static final int lost = 3;
 	static final int win = 4;
+	static final int noLives = 5;
+	
+	static int livesLeft = 10;
 
-	static Integer score = 10000;
+	static Integer timeLeft = 3000;
 	int count = 0;
 
 	GhostObject g1;
@@ -136,7 +139,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		om.addGhostObject(g5);
 		om.addGhostObject(g6);
 		
-		for(int i = 0; i < om.numWins; i++) {
+		for(int i = 0; i < om.numWins/2; i++) {
 			om.addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
 		}
 
@@ -199,15 +202,28 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			om.drawWinState(g);
 			resetCherry();
 		}
+		
+		if (menuState == noLives) {
+			om.drawNoLivesState(g);
+			resetCherry();
+		}
 
 		repaint();
 
 	}
 
+	public void checkLives() {
+		if(livesLeft < 1) {
+			menuState = noLives;
+		}
+	}
+	
 	public void checkGhostCollision(Rectangle colBox) {
 		for (GhostObject g : om.ghosts) {
 			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
 				menuState = lost;
+				livesLeft --;
+				checkLives();
 			}
 		}
 	}
@@ -263,6 +279,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				menuState = game;
 			}
 		}
+		
+		if (menuState == noLives) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				makePacGirl();
+				om.reset(pgo);
+				resetGhosts();
+				menuState = start;
+				livesLeft = 10;
+			}
+		}
 
 		repaint();
 	}
@@ -292,14 +318,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (menuState == game) {
 			count++;
 			if (count % 5 == 0) {
-				score = score - 1;
+				timeLeft = timeLeft - 1;
 				// score decreases by 12 points/second
 			}
 			if (count % 250 == 0) {
 				resetCherry();
 			}
-			if (score < 0) {
+			if (timeLeft < 0) {
 				menuState = lost;
+				livesLeft --;
+				checkLives();
 			}
 
 		}
