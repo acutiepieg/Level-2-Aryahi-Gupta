@@ -77,10 +77,10 @@ public class ObjectManager {
 		g.setColor(Color.BLACK);
 		g.setFont(phosphateSmall);
 		g.drawString("Game Over", 312, 345);
-		g.setFont(textEvenBigger);
-		g.drawString("You Lost", 410, 440);
 		g.setFont(textBig);
-		g.drawString("Press ENTER to play again", 330, 560);
+		g.drawString("Cherries collected - " + numWins, 360, 420);
+		g.drawString("Lives left - " + GamePanel.livesLeft, 400, 500);
+		g.drawString("Press ENTER to continue", 340, 580);
 	}
 
 	public void drawGameState(Graphics g) {
@@ -108,16 +108,16 @@ public class ObjectManager {
 		g.fillRect(295, 285, 400, 400);
 		g.setColor(Color.BLACK);
 		g.setFont(phosphateSmall);
-		g.drawString("You Won", 340, 345);
+		g.drawString("Cherry", 370, 345);
+		g.drawString("Collected", 320, 400);
 		g.setFont(textBig);
-		g.drawString("Time left - " + GamePanel.timeLeft, 360, 440);
-		g.drawString("Cherries collected - " + numWins, 360, 470);
-		g.drawString("Lives left - " + GamePanel.livesLeft, 360, 500);
-		g.drawString("Press ENTER to play again", 330, 560);
+		g.drawString("Cherries collected - " + numWins, 360, 450);
+		g.drawString("Lives left - " + GamePanel.livesLeft, 400, 510);
+		g.drawString("Press ENTER to continue", 330, 580);
 
 	}
-	
-	public void drawNoLivesState(Graphics g){
+
+	public void drawNoLivesState(Graphics g) {
 		for (MazeObject m : mazes) {
 			m.draw(g);
 		}
@@ -129,7 +129,7 @@ public class ObjectManager {
 		g.drawString("No Lives Left", 300, 345);
 		g.setFont(textBig);
 		g.drawString("Cherries collected - " + numWins, 360, 440);
-		g.drawString("Press ENTER to restart", 350, 560);
+		g.drawString("Press ENTER to restart", 350, 580);
 	}
 
 	public void ghostCollision() {
@@ -146,10 +146,16 @@ public class ObjectManager {
 					}
 				}
 			}
-			g.update();
+			
 		}
 	}
 
+	public void updateGhosts() {
+		for (GhostObject g : ghosts) {
+		g.update();
+		}
+	}
+	
 	public void cherryCollision() {
 		if (pacGirl.cBox.intersects(co.cBox)) {
 			GamePanel.menuState = GamePanel.win;

@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	static final int lost = 3;
 	static final int win = 4;
 	static final int noLives = 5;
-	
+
 	static int livesLeft = 10;
 
 	static Integer timeLeft = 3000;
@@ -104,7 +104,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 
 		int ran = r.nextInt(cherryLocations.length);
-		co = new CherryObject(cherryLocations[ran][0] * (PacGirl.fWidth / 21), cherryLocations[ran][1] * (PacGirl.fWidth / 20), 35, 35);
+		co = new CherryObject(cherryLocations[ran][0] * (PacGirl.fWidth / 21),
+				cherryLocations[ran][1] * (PacGirl.fWidth / 20), 35, 35);
 		makePacGirl();
 		om = new ObjectManager(pgo, co);
 		resetGhosts();
@@ -125,6 +126,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void resetGhosts() {
+		om.ghosts.clear();
 		g1 = new GhostObject(12, 5, GhostObject.down, cyanGhost);
 		g2 = new GhostObject(1, 16, GhostObject.right, orangeGhost);
 		g3 = new GhostObject(5, 12, GhostObject.left, pinkGhost);
@@ -138,8 +140,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		om.addGhostObject(g4);
 		om.addGhostObject(g5);
 		om.addGhostObject(g6);
-		
-		for(int i = 0; i < om.numWins/2; i++) {
+
+		for (int i = 0; i < om.numWins / 2; i++) {
 			om.addGhostObject(new GhostObject(17, 18, GhostObject.up, GamePanel.deadGhost));
 		}
 
@@ -202,7 +204,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			om.drawWinState(g);
 			resetCherry();
 		}
-		
+
 		if (menuState == noLives) {
 			om.drawNoLivesState(g);
 			resetCherry();
@@ -213,16 +215,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void checkLives() {
-		if(livesLeft < 1) {
+		if (livesLeft < 1) {
 			menuState = noLives;
 		}
 	}
-	
+
 	public void checkGhostCollision(Rectangle colBox) {
 		for (GhostObject g : om.ghosts) {
 			if (colBox.intersects(om.getGhostFutureRect(g, g.direction))) {
 				menuState = lost;
-				livesLeft --;
+				livesLeft--;
 				checkLives();
 			}
 		}
@@ -235,7 +237,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
 
 		if (menuState == start) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -279,14 +280,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				menuState = game;
 			}
 		}
-		
+
 		if (menuState == noLives) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				makePacGirl();
 				om.reset(pgo);
+				om.numWins = 0;
 				resetGhosts();
 				menuState = start;
 				livesLeft = 10;
+
 			}
 		}
 
@@ -326,10 +329,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 			if (timeLeft < 0) {
 				menuState = lost;
-				livesLeft --;
+				livesLeft--;
 				checkLives();
 			}
-
+			om.updateGhosts();
 		}
 	}
 

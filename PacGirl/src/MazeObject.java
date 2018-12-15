@@ -10,12 +10,12 @@ public class MazeObject {
 	int x;
 	int y;
 	static final int width = PacGirl.fWidth / GamePanel.numCol;
-	static final int height =  (PacGirl.fHeight) / GamePanel.numRows;
+	static final int height = (PacGirl.fHeight) / GamePanel.numRows;
 	int row;
 	int col;
 	int state;
-	Rectangle collisionBox; 
-	
+	Rectangle collisionBox;
+
 	public MazeObject(int row, int col, int state) {
 		this.row = row;
 		this.col = col;
@@ -23,21 +23,21 @@ public class MazeObject {
 		this.y = row * height;
 		this.state = state;
 		collisionBox = new Rectangle(x, y, width, height);
-		
+
 	}
 
 	public void draw(Graphics g) {
-		if(state == GamePanel.wall) {
+		if (state == GamePanel.wall) {
 			g.setColor(Color.BLUE);
 		}
-		
+
 		else if (state == GamePanel.empty) {
 			g.setColor(Color.black);
 		}
 		g.drawRect(x, y, width, height);
 		g.fillRect(x, y, width, height);
 		collisionBox.setBounds(x, y, width, height);
-		
+
 	}
 
 }

@@ -8,7 +8,7 @@ public class GhostObject {
 	int row;
 	int col;
 	int direction;
-	int speed = 1;
+	int speed = 5;
 	BufferedImage ghostImage;
 
 	static final int up = 0;
